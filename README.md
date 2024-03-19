@@ -21,7 +21,7 @@ Several design decisions have been made in the implementation of this software, 
 * No support to response rate limiting, caching, CORS etc for sake of implementation simplicity
 * No upper bound on `page` and especially `limit` for the GET operation, for sake of implementation simplicity. Ideally one would not allow a user to select all records in the table with a sufficiently large `limit` parameter value
 * Basic logging to console, for sake of simplicity
-* Unit testing of Service logic
+* Unit testing of Service logic is included, though this is implicitly tested via the integration tests
 * Integration testing with in-memory instance of SQLite, to confirm that database interactions, seeding etc work as expected without cumbersome mocking
 * Use of standard suite of NuGet packages
 
