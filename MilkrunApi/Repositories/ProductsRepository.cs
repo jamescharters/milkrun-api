@@ -24,8 +24,10 @@ public class ProductsRepository : IProductsRepository
 
     public async Task<bool> ExistsAsync(string title, string brand)
     {
-        return await _productsDbContext.Products.AnyAsync(product =>
-            product.Title.Equals(title) && product.Brand.Equals(brand));
+        return await _productsDbContext.Products
+            .Where(product => product.Title.Equals(title))
+            .Where(product => product.Brand.Equals(brand))
+            .AnyAsync();
     }
 
     public async Task<Tuple<IEnumerable<ProductEntity>, int>> GetAllAsync(int page = 0, int pageSize = 10)
@@ -33,7 +35,7 @@ public class ProductsRepository : IProductsRepository
         ArgumentOutOfRangeException.ThrowIfNegative(page);
         ArgumentOutOfRangeException.ThrowIfNegative(pageSize);
 
-        var queryResults = await _productsDbContext.Products.OrderBy(p => p.Id).Skip(page * pageSize).Take(pageSize)
+        var queryResults = await _productsDbContext.Products.OrderBy(p => p.Id).Skip(page - 1 * pageSize).Take(pageSize)
             .ToListAsync();
 
         var totalCount = await _productsDbContext.Products.CountAsync();
