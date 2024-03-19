@@ -2,6 +2,14 @@
 
 This repository contains code for the MILKRUN Products API.
 
+# Getting Started
+
+1. Clone the repository
+2. Open up the solution in VS or Rider
+3. From the root of the cloned repository, run `dotnet build`, `dotnet run` or `dotnet test` depending on your needs
+
+When run, the API application will automatically attempt to seed a local SQLite database using the JSON file located under `MilkrunApi\Data\databaseSeed.json`.
+
 # Errata
 
 Several design decisions have been made in the implementation of this software, namely:
@@ -13,7 +21,7 @@ Several design decisions have been made in the implementation of this software, 
 * No support to response rate limiting, caching, CORS etc for sake of implementation simplicity
 * Basic logging to console, for sake of simplicity
 * Unit testing of Service logic
-* Integration testing with in-memory instance of sqlite, to confirm that database interactions, seeding etc work as expected without cumbersome mocking
+* Integration testing with in-memory instance of SQLite, to confirm that database interactions, seeding etc work as expected without cumbersome mocking
 * Use of standard suite of NuGet packages
 
 # Additional ideas
@@ -25,8 +33,4 @@ Some thoughts on improvements, extensions:
 * Implement rate limiting, CORS, caching and so forth, though these may also be addressed at an cloud infrastructure level
 * Use Testcontainers in integration test suite to run API in real Docker containers (probably overkill for something so simple here)
 
-# Getting Started
 
-1. Clone the repository
-2. Open up the solution in VS or Rider
-3. From the root of the cloned repository, run `dotnet build`, `dotnet run` or `dotnet test` depending on your needs
