@@ -34,10 +34,12 @@ public class BasicAuthenticationHandler(
 
                 return AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Scheme.Name));
             }
+
+            Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+            return AuthenticateResult.Fail("Invalid user credentials");
         }
 
-        Response.StatusCode = StatusCodes.Status401Unauthorized;
-
-        return AuthenticateResult.Fail("Missing 'Authorisation: Basic' header");
+        return AuthenticateResult.NoResult();
     }
 }
