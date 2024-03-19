@@ -26,6 +26,30 @@ builder.Services.AddSwaggerGen(config =>
             Email = "me@jamescharters.info"
         }
     });
+    
+    config.AddSecurityDefinition("basic", new OpenApiSecurityScheme  
+    {  
+        Name = "Authorization",  
+        Type = SecuritySchemeType.Http,  
+        Scheme = "basic",  
+        In = ParameterLocation.Header,  
+        Description = "Basic Authorization header using the Bearer scheme."  
+    }); 
+    
+    config.AddSecurityRequirement(new OpenApiSecurityRequirement  
+    {  
+        {  
+            new OpenApiSecurityScheme  
+            {  
+                Reference = new OpenApiReference  
+                {  
+                    Type = ReferenceType.SecurityScheme,  
+                    Id = "basic"  
+                }  
+            },  
+            new string[] {}  
+        }  
+    });  
 
     // Set the comments path for the Swagger JSON and UI.
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
