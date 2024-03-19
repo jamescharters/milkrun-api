@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MilkrunApi", "MilkrunApi\MilkrunApi.csproj", "{3D266603-879C-49CF-9A80-AE94DF211190}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MilkrunApi.Tests", "MilkrunApi.Tests\MilkrunApi.Tests.csproj", "{40AD6ED7-8DFF-4A6D-B517-E093AD06D541}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MilkrunApi.Tests.Integration", "MilkrunApi.Tests.Integration\MilkrunApi.Tests.Integration.csproj", "{53E9F2F2-9D1E-4E66-A21C-FDD2FF5ECB7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D266603-879C-49CF-9A80-AE94DF211190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D266603-879C-49CF-9A80-AE94DF211190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D266603-879C-49CF-9A80-AE94DF211190}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D266603-879C-49CF-9A80-AE94DF211190}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40AD6ED7-8DFF-4A6D-B517-E093AD06D541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40AD6ED7-8DFF-4A6D-B517-E093AD06D541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40AD6ED7-8DFF-4A6D-B517-E093AD06D541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40AD6ED7-8DFF-4A6D-B517-E093AD06D541}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53E9F2F2-9D1E-4E66-A21C-FDD2FF5ECB7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E9F2F2-9D1E-4E66-A21C-FDD2FF5ECB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E9F2F2-9D1E-4E66-A21C-FDD2FF5ECB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E9F2F2-9D1E-4E66-A21C-FDD2FF5ECB7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
