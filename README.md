@@ -19,6 +19,7 @@ Several design decisions have been made in the implementation of this software, 
 * Use of Service and Repository patterns for encapsulating business logic, separation of concerns
 * Basic authentication scheme (i.e. 'Authorization: Basic test_user test_password' header) for privileged POST and PUT operations
 * No support to response rate limiting, caching, CORS etc for sake of implementation simplicity
+* No upper bound on `page` and especially `limit` for the GET operation, for sake of implementation simplicity. Ideally one would not allow a user to select all records in the table with a sufficiently large `limit` parameter value
 * Basic logging to console, for sake of simplicity
 * Unit testing of Service logic
 * Integration testing with in-memory instance of SQLite, to confirm that database interactions, seeding etc work as expected without cumbersome mocking
