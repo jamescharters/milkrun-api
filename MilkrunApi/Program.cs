@@ -59,7 +59,7 @@ builder.Services.AddAuthorization(config =>
 builder.Services.Configure<MilkrunApiOptions>(
     builder.Configuration.GetSection(MilkrunApiOptions.Milkrun));
 
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(MilkrunApi.Program));
 
 // DEVNOTE: Basic console logging here, with no filters applied as no PII present
 builder.Services.AddHttpLogging(logging =>
@@ -90,4 +90,7 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program;
+namespace MilkrunApi
+{
+    public partial class Program;
+}

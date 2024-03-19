@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MilkrunApi.Data;
-using MilkrunApi.Exceptions;
 using MilkrunApi.Models.DTO;
 using MilkrunApi.Models.Entity;
 
@@ -17,12 +16,14 @@ public class ProductsRepository : IProductsRepository
         _productsDbContext = dbContext;
         _mapper = mapper;
     }
+    
+    public async Task<bool> ExistsAsync(long id)
+    {
+        return await _productsDbContext.Products.AnyAsync(product => product.Id == id);
+    }
 
     public async Task<bool> ExistsAsync(string title, string brand)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(title);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(brand);
-        
         return await _productsDbContext.Products.AnyAsync(product =>
             product.Title.Equals(title) && product.Brand.Equals(brand));
     }

@@ -11,7 +11,6 @@ public class ProductsService(IProductsRepository productsRepository, IMapper map
     public async Task<ProductsCollection> GetAllAsync(int page = 0, int pageSize = 10)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(page);
-
         ArgumentOutOfRangeException.ThrowIfNegative(pageSize);
 
         var results = await productsRepository.GetAllAsync(page, pageSize);
@@ -27,7 +26,7 @@ public class ProductsService(IProductsRepository productsRepository, IMapper map
 
         if (productExists)
         {
-            throw new ProductExistsException($"Product with title '{createProductRequest.Title}' and brand '{createProductRequest.Brand}' already exists");
+            throw new DuplicateProductException($"Product with title '{createProductRequest.Title}' and brand '{createProductRequest.Brand}' already exists");
         }
 
         return await productsRepository.CreateAsync(createProductRequest);
@@ -35,6 +34,20 @@ public class ProductsService(IProductsRepository productsRepository, IMapper map
     
     public async Task UpdateAsync(long id, ProductRequest updateProductRequest)
     {
+        var existingProduct = await productsRepository.ExistsAsync(id);
+
+        if (!existingProduct)
+        {
+            throw new InvalidProductException($"Product with id '{id}' does not exist");
+        }
+        
+        var duplicateProduct = await productsRepository.ExistsAsync(updateProductRequest.Title, updateProductRequest.Brand);
+
+        if (duplicateProduct)
+        {
+            throw new DuplicateProductException($"Product with title '{updateProductRequest.Title}' and brand '{updateProductRequest.Brand}' already exists");
+        }
+        
         await productsRepository.UpdateAsync(id, updateProductRequest);
     }
 }

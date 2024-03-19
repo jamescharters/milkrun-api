@@ -40,10 +40,10 @@ public class ProductsServiceTests
 
         var service = new ProductsService(_mockedRepository.Object, _mapper);
 
-        Assert.ThrowsAsync<ProductExistsException>(async () => await service.CreateAsync(new ProductRequest
+        Assert.ThrowsAsync<DuplicateProductException>(async () => await service.CreateAsync(new ProductRequest
         {
-            Title = "null",
-            Description = "null",
+            Title = "Fake Title",
+            Description = "Fake Description",
             Price = 0
         }));
         _mockedRepository.Verify(r => r.CreateAsync(It.IsAny<ProductRequest>()), Times.Never);
@@ -69,8 +69,46 @@ public class ProductsServiceTests
     }
 
     [Test]
-    public async Task Update_Calls_Repository()
+    public void UpdateAsync_Throws_DuplicateProductException()
     {
+        _mockedRepository.Setup(r => r.ExistsAsync(It.IsAny<long>())).ReturnsAsync(true);
+        _mockedRepository.Setup(r => r.ExistsAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(true);
+        _mockedRepository.Setup(r => r.UpdateAsync(It.IsAny<long>(), It.IsAny<ProductRequest>()));
+
+        var service = new ProductsService(_mockedRepository.Object, _mapper);
+
+        Assert.ThrowsAsync<DuplicateProductException>(async () => await service.UpdateAsync(1, new ProductRequest
+        {
+            Title = "Fake Title",
+            Description = "Fake Description",
+            Price = 0
+        }));
+        
+        _mockedRepository.Verify(r => r.CreateAsync(It.IsAny<ProductRequest>()), Times.Never);
+    }
+    
+    [Test]
+    public void UpdateAsync_Throws_InvalidProductException()
+    {
+        _mockedRepository.Setup(r => r.ExistsAsync(It.IsAny<long>())).ReturnsAsync(false);
+        _mockedRepository.Setup(r => r.UpdateAsync(It.IsAny<long>(), It.IsAny<ProductRequest>()));
+
+        var service = new ProductsService(_mockedRepository.Object, _mapper);
+
+        Assert.ThrowsAsync<InvalidProductException>(async () => await service.UpdateAsync(1, new ProductRequest
+        {
+            Title = "Fake Title",
+            Description = "Fake Description",
+            Price = 0
+        }));
+        
+        _mockedRepository.Verify(r => r.CreateAsync(It.IsAny<ProductRequest>()), Times.Never);
+    }
+    
+    [Test]
+    public async Task UpdateAsync_Calls_Repository()
+    {
+        _mockedRepository.Setup(r => r.ExistsAsync(It.IsAny<long>())).ReturnsAsync(true);
         _mockedRepository.Setup(r => r.UpdateAsync(It.IsAny<long>(), It.IsAny<ProductRequest>()));
 
         var service = new ProductsService(_mockedRepository.Object, _mapper);

@@ -53,7 +53,7 @@ public class Products(IProductsService productsService) : ControllerBase
 
             return Created($"api/v1/products/{result.Id}", result);
         }
-        catch (ProductExistsException e)
+        catch (DuplicateProductException e)
         {
             return Conflict();
         }
@@ -68,11 +68,23 @@ public class Products(IProductsService productsService) : ControllerBase
     [HttpPut("{id:long}")]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult> UpdateProduct([Range(0, long.MaxValue, ErrorMessage = $"{nameof(id)} must be >= 0")] int id,
         [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] ProductRequest updatedProduct)
     {
-        await productsService.UpdateAsync(id, updatedProduct);
+        try
+        {
+            await productsService.UpdateAsync(id, updatedProduct);
 
-        return NoContent();
+            return NoContent();
+        }
+        catch (DuplicateProductException e)
+        {
+            return Conflict();
+        }
+        catch (InvalidProductException e)
+        {
+            return NotFound();
+        }
     }
 }
