@@ -8,15 +8,15 @@ namespace MilkrunApi.Repositories;
 
 public class ProductsRepository : IProductsRepository
 {
-    private readonly ProductsDbContext _productsDbContext;
     private readonly IMapper _mapper;
+    private readonly ProductsDbContext _productsDbContext;
 
     public ProductsRepository(ProductsDbContext dbContext, IMapper mapper)
     {
         _productsDbContext = dbContext;
         _mapper = mapper;
     }
-    
+
     public async Task<bool> ExistsAsync(long id)
     {
         return await _productsDbContext.Products.AnyAsync(product => product.Id == id);
@@ -37,7 +37,7 @@ public class ProductsRepository : IProductsRepository
             .ToListAsync();
 
         var totalCount = await _productsDbContext.Products.CountAsync();
-        
+
         return new Tuple<IEnumerable<ProductEntity>, int>(queryResults, totalCount);
     }
 
@@ -54,10 +54,7 @@ public class ProductsRepository : IProductsRepository
     {
         var existingProduct = await _productsDbContext.Products.FindAsync(id);
 
-        if (existingProduct == null)
-        {
-            return;
-        }
+        if (existingProduct == null) return;
 
         _mapper.Map(updateProductRequest, existingProduct);
 

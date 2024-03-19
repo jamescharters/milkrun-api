@@ -9,7 +9,7 @@ internal static class DbInitializerExtension
         ArgumentNullException.ThrowIfNull(app, nameof(app));
 
         using var scope = app.ApplicationServices.CreateScope();
-        
+
         var context = scope.ServiceProvider.GetRequiredService<ProductsDbContext>();
 
         await scope.ServiceProvider.GetRequiredService<ProductsDatabaseInitialiser>().SeedAsync(context);

@@ -26,7 +26,7 @@ builder.Services.AddSwaggerGen(config =>
             Email = "me@jamescharters.info"
         }
     });
-    
+
     // Set the comments path for the Swagger JSON and UI.
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -38,16 +38,13 @@ builder.Services.AddControllers(options =>
     options.ModelMetadataDetailsProviders.Add(new SystemTextJsonValidationMetadataProvider());
 });
 
-builder.Services.AddDbContext<ProductsDbContext>(builder =>
-{
-    builder.UseSqlite("Data Source=ProductsData.db");
-});
+builder.Services.AddDbContext<ProductsDbContext>(builder => { builder.UseSqlite("Data Source=ProductsData.db"); });
 builder.Services.AddSingleton<ProductsDatabaseInitialiser>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 
-builder.Services.AddAuthentication("BasicAuthentication").
-    AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+builder.Services.AddAuthentication("BasicAuthentication")
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
 builder.Services.AddAuthorization(config =>
 {
@@ -92,5 +89,5 @@ app.Run();
 
 namespace MilkrunApi
 {
-    public partial class Program;
+    public class Program;
 }

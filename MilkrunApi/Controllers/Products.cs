@@ -14,7 +14,7 @@ namespace MilkrunApi.Controllers;
 public class Products(IProductsService productsService) : ControllerBase
 {
     /// <summary>
-    /// Retrieve subset of products
+    ///     Retrieve subset of products
     /// </summary>
     /// <param name="page">The page to select</param>
     /// <param name="limit">The number of results per page</param>
@@ -34,7 +34,7 @@ public class Products(IProductsService productsService) : ControllerBase
     }
 
     /// <summary>
-    /// Create a new product
+    ///     Create a new product
     /// </summary>
     /// <param name="createProductRequest">The details of the product to create</param>
     /// <returns></returns>
@@ -60,7 +60,7 @@ public class Products(IProductsService productsService) : ControllerBase
     }
 
     /// <summary>
-    /// Update an existing product
+    ///     Update an existing product
     /// </summary>
     /// <param name="id">The id of the existing product</param>
     /// <param name="updatedProduct">The updated details of the product</param>
@@ -69,8 +69,10 @@ public class Products(IProductsService productsService) : ControllerBase
     [Authorize]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult> UpdateProduct([Range(0, long.MaxValue, ErrorMessage = $"{nameof(id)} must be >= 0")] int id,
-        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)] ProductRequest updatedProduct)
+    public async Task<ActionResult> UpdateProduct(
+        [Range(0, long.MaxValue, ErrorMessage = $"{nameof(id)} must be >= 0")] int id,
+        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Disallow)]
+        ProductRequest updatedProduct)
     {
         try
         {

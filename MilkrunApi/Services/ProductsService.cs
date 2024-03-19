@@ -16,38 +16,35 @@ public class ProductsService(IProductsRepository productsRepository, IMapper map
         var results = await productsRepository.GetAllAsync(page, pageSize);
 
         var mappedResults = mapper.Map<IEnumerable<ProductEntity>, IEnumerable<ProductResponse>>(results.Item1);
-        
+
         return new ProductsCollection(mappedResults, results.Item2, page, pageSize);
     }
-    
+
     public async Task<ProductEntity> CreateAsync(ProductRequest createProductRequest)
     {
-        var productExists = await productsRepository.ExistsAsync(createProductRequest.Title, createProductRequest.Brand);
+        var productExists =
+            await productsRepository.ExistsAsync(createProductRequest.Title, createProductRequest.Brand);
 
         if (productExists)
-        {
-            throw new DuplicateProductException($"Product with title '{createProductRequest.Title}' and brand '{createProductRequest.Brand}' already exists");
-        }
+            throw new DuplicateProductException(
+                $"Product with title '{createProductRequest.Title}' and brand '{createProductRequest.Brand}' already exists");
 
         return await productsRepository.CreateAsync(createProductRequest);
     }
-    
+
     public async Task UpdateAsync(long id, ProductRequest updateProductRequest)
     {
         var existingProduct = await productsRepository.ExistsAsync(id);
 
-        if (!existingProduct)
-        {
-            throw new InvalidProductException($"Product with id '{id}' does not exist");
-        }
-        
-        var duplicateProduct = await productsRepository.ExistsAsync(updateProductRequest.Title, updateProductRequest.Brand);
+        if (!existingProduct) throw new InvalidProductException($"Product with id '{id}' does not exist");
+
+        var duplicateProduct =
+            await productsRepository.ExistsAsync(updateProductRequest.Title, updateProductRequest.Brand);
 
         if (duplicateProduct)
-        {
-            throw new DuplicateProductException($"Product with title '{updateProductRequest.Title}' and brand '{updateProductRequest.Brand}' already exists");
-        }
-        
+            throw new DuplicateProductException(
+                $"Product with title '{updateProductRequest.Title}' and brand '{updateProductRequest.Brand}' already exists");
+
         await productsRepository.UpdateAsync(id, updateProductRequest);
     }
 }

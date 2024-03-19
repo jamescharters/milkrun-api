@@ -12,8 +12,8 @@ namespace MilkrunApi.Tests.Unit;
 
 public class ProductsServiceTests
 {
-    private Mock<IProductsRepository> _mockedRepository;
     private IMapper _mapper;
+    private Mock<IProductsRepository> _mockedRepository;
 
     [SetUp]
     public void Setup()
@@ -83,10 +83,10 @@ public class ProductsServiceTests
             Description = "Fake Description",
             Price = 0
         }));
-        
+
         _mockedRepository.Verify(r => r.CreateAsync(It.IsAny<ProductRequest>()), Times.Never);
     }
-    
+
     [Test]
     public void UpdateAsync_Throws_InvalidProductException()
     {
@@ -101,10 +101,10 @@ public class ProductsServiceTests
             Description = "Fake Description",
             Price = 0
         }));
-        
+
         _mockedRepository.Verify(r => r.CreateAsync(It.IsAny<ProductRequest>()), Times.Never);
     }
-    
+
     [Test]
     public async Task UpdateAsync_Calls_Repository()
     {
@@ -131,7 +131,7 @@ public class ProductsServiceTests
 
         var service = new ProductsService(_mockedRepository.Object, _mapper);
 
-        Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await service.GetAllAsync(-1000, 10));
+        Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await service.GetAllAsync(-1000));
 
         _mockedRepository.Verify(r => r.GetAllAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Never);
     }
@@ -157,7 +157,7 @@ public class ProductsServiceTests
 
         var service = new ProductsService(_mockedRepository.Object, _mapper);
 
-        await service.GetAllAsync(1, 10);
+        await service.GetAllAsync(1);
 
         _mockedRepository.Verify(r => r.GetAllAsync(1, 10), Times.Once);
     }

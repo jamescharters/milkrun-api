@@ -15,7 +15,7 @@ public class CustomWebApplicationFactory<TProgram> : WebApplicationFactory<TProg
         builder.ConfigureServices(services =>
         {
             var dbContextOptions = services.SingleOrDefault(d => d.ServiceType ==
-                                                                    typeof(DbContextOptions<ProductsDbContext>));
+                                                                 typeof(DbContextOptions<ProductsDbContext>));
 
             services.Remove(dbContextOptions);
 

@@ -1,7 +1,7 @@
 namespace MilkrunApi.Models.DTO;
 
 /// <summary>
-/// Read data transfer object (DTO) representing a subset of available products
+///     Read data transfer object (DTO) representing a subset of available products
 /// </summary>
 /// <param name="products">List of products</param>
 /// <param name="total">Total number of products in the system</param>
@@ -10,22 +10,22 @@ namespace MilkrunApi.Models.DTO;
 public class ProductsCollection(IEnumerable<ProductResponse> products, int total, int skip, int limit)
 {
     /// <summary>
-    /// List of products
+    ///     List of products
     /// </summary>
     public IEnumerable<ProductResponse> Products { get; } = products;
-    
+
     /// <summary>
-    /// Total number of products available
+    ///     Total number of products available
     /// </summary>
     public int Total { get; } = total;
-    
+
     /// <summary>
-    /// The page (skip) of the request
+    ///     The page (skip) of the request
     /// </summary>
     public int Skip { get; } = skip;
-    
+
     /// <summary>
-    /// The page size (limit) of the request
+    ///     The page size (limit) of the request
     /// </summary>
-    public int Limit { get;} = limit;
+    public int Limit { get; } = limit;
 }

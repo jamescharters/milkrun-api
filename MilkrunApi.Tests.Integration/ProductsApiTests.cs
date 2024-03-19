@@ -10,10 +10,8 @@ namespace MilkrunApi.Tests.Integration;
 
 public class ProductsApiTests
 {
-    private CustomWebApplicationFactory<Program> _factory;
-
     private const string API_URL = "/api/v1/Products";
-    
+
     private readonly ProductRequest CreateProductRequest = new()
     {
         Brand = "Fake Brand",
@@ -27,7 +25,9 @@ public class ProductsApiTests
         Title = "Fake Title",
         DiscountPercentage = 0.5M
     };
-    
+
+    private CustomWebApplicationFactory<Program> _factory;
+
     [SetUp]
     public void SetUp()
     {
@@ -48,57 +48,55 @@ public class ProductsApiTests
         });
 
         if (withAuth)
-        {
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Basic", Convert.ToBase64String("test_user:test_password"u8.ToArray()));
-        }
 
         return client;
     }
-  
+
     [Test]
     public async Task Get_Products_Should_Return_First_Page()
     {
         var response = await CreateClient().GetAsync(API_URL);
 
         response.EnsureSuccessStatusCode();
-        
+
         var content = JsonConvert.DeserializeObject<ProductsCollection>(await response.Content.ReadAsStringAsync());
-        
+
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         Assert.That(content.Total, Is.EqualTo(30));
         Assert.That(content.Skip, Is.EqualTo(0));
         Assert.That(content.Limit, Is.EqualTo(10));
         Assert.That(content.Products.Count(), Is.EqualTo(10));
     }
-    
+
     [Test]
     public async Task Get_Products_Should_Return_Different_Page_And_Limit()
     {
         var response = await CreateClient().GetAsync($"{API_URL}?page=2&limit=5");
 
         response.EnsureSuccessStatusCode();
-        
+
         var content = JsonConvert.DeserializeObject<ProductsCollection>(await response.Content.ReadAsStringAsync());
-        
+
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         Assert.That(content.Total, Is.EqualTo(30));
         Assert.That(content.Skip, Is.EqualTo(2));
         Assert.That(content.Limit, Is.EqualTo(5));
         Assert.That(content.Products.Count(), Is.EqualTo(5));
     }
-    
+
     [Test]
     public async Task Create_Product_Should_Succeed_If_Authenticated()
     {
         var authenticatedClient = CreateClient(true);
-        
+
         var response = await authenticatedClient.PostAsJsonAsync(API_URL, CreateProductRequest);
 
         response.EnsureSuccessStatusCode();
 
         var createdProduct = JsonConvert.DeserializeObject<ProductEntity>(await response.Content.ReadAsStringAsync());
-        
+
         Assert.That(createdProduct.Id > 0);
         Assert.That(createdProduct.Title, Is.EqualTo(CreateProductRequest.Title));
         Assert.That(createdProduct.Price, Is.EqualTo(CreateProductRequest.Price));
@@ -111,12 +109,12 @@ public class ProductsApiTests
         Assert.That(createdProduct.Thumbnail, Is.EqualTo(CreateProductRequest.Thumbnail));
         Assert.That(createdProduct.DiscountPercentage, Is.EqualTo(CreateProductRequest.DiscountPercentage));
     }
-    
+
     [Test]
     public async Task Create_Product_Should_Conflict_If_Title_And_Brand_Are_Duplicates()
     {
         var authenticatedClient = CreateClient(true);
-        
+
         var firstCreateResponse = await authenticatedClient.PostAsJsonAsync(API_URL, CreateProductRequest);
 
         firstCreateResponse.EnsureSuccessStatusCode();
@@ -128,10 +126,10 @@ public class ProductsApiTests
             Price = 123,
             Description = "Anything Else"
         });
-        
+
         Assert.That(secondCreateResponse.StatusCode, Is.EqualTo(HttpStatusCode.Conflict));
     }
-    
+
     [Test]
     public async Task Create_Product_Should_Fail_If_Unauthenticated()
     {
@@ -139,49 +137,53 @@ public class ProductsApiTests
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
     }
-    
+
     [Test]
     public async Task Update_Product_Should_Succeed_If_Authenticated()
     {
         var authenticatedClient = CreateClient(true);
-        
+
         // Create 
         var createResponse = await authenticatedClient.PostAsJsonAsync(API_URL, CreateProductRequest);
 
-        var createdProduct = JsonConvert.DeserializeObject<ProductEntity>(await createResponse.Content.ReadAsStringAsync());
-        
+        var createdProduct =
+            JsonConvert.DeserializeObject<ProductEntity>(await createResponse.Content.ReadAsStringAsync());
+
         // Update
-        var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/{createdProduct.Id}", new ProductRequest
-        {
-            Title = "Modified Title",
-            Brand = "Modifed Brand",
-            Description = "Modified Description",
-            Price = 256
-        });
-        
+        var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/{createdProduct.Id}",
+            new ProductRequest
+            {
+                Title = "Modified Title",
+                Brand = "Modifed Brand",
+                Description = "Modified Description",
+                Price = 256
+            });
+
         Assert.That(updateResponse.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
     }
-    
+
     [Test]
     public async Task Update_Product_Should_Conflict_If_Title_And_Brand_Are_Duplicates()
     {
         var authenticatedClient = CreateClient(true);
-        
+
         var createResponse = await authenticatedClient.PostAsJsonAsync(API_URL, CreateProductRequest);
 
-        var createdProduct = JsonConvert.DeserializeObject<ProductEntity>(await createResponse.Content.ReadAsStringAsync());
-        
-        var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/{createdProduct.Id}", new ProductRequest
-        {
-            Title = CreateProductRequest.Title,
-            Description = "Modified Description",
-            Brand = CreateProductRequest.Brand,
-            Price = 256
-        });
-        
+        var createdProduct =
+            JsonConvert.DeserializeObject<ProductEntity>(await createResponse.Content.ReadAsStringAsync());
+
+        var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/{createdProduct.Id}",
+            new ProductRequest
+            {
+                Title = CreateProductRequest.Title,
+                Description = "Modified Description",
+                Brand = CreateProductRequest.Brand,
+                Price = 256
+            });
+
         Assert.That(updateResponse.StatusCode, Is.EqualTo(HttpStatusCode.Conflict));
     }
-    
+
     [Test]
     public async Task Update_Product_Should_NotFound_If_Product_Does_Not_Exist()
     {
@@ -194,44 +196,46 @@ public class ProductsApiTests
             Brand = CreateProductRequest.Brand,
             Price = 256
         });
-        
+
         Assert.That(updateResponse.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
-    
+
     [Test]
     public async Task Update_Product_Should_Fail_If_Already_Exists()
     {
         var authenticatedClient = CreateClient(true);
-        
+
         // Create 
         var createResponse = await authenticatedClient.PostAsJsonAsync(API_URL, CreateProductRequest);
 
-        var createdProduct = JsonConvert.DeserializeObject<ProductEntity>(await createResponse.Content.ReadAsStringAsync());
-        
+        var createdProduct =
+            JsonConvert.DeserializeObject<ProductEntity>(await createResponse.Content.ReadAsStringAsync());
+
         // Update
-        var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/{createdProduct.Id}", new ProductRequest
-        {
-            Title = "Title",
-            Description = "Description",
-            Brand = "Brand",
-            Price = 256
-        });
-        
+        var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/{createdProduct.Id}",
+            new ProductRequest
+            {
+                Title = "Title",
+                Description = "Description",
+                Brand = "Brand",
+                Price = 256
+            });
+
         Assert.That(updateResponse.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
     }
-    
+
     [Test]
     public async Task Update_Product_Should_Fail_If_Unauthenticated()
     {
         var authenticatedClient = CreateClient();
- 
+
         var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/1", new ProductRequest
         {
             Title = "Modified Title",
             Description = "Modified Description",
             Price = 256
         });
-        
+
         Assert.That(updateResponse.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
     }
 }

@@ -10,7 +10,7 @@ public class ProductsDbContext(DbContextOptions<ProductsDbContext> options) : Db
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ProductEntity>(entity => entity.ToTable("Products"));
-           
+
         modelBuilder.Entity<ProductEntity>().Property(entity => entity.Id)
             .ValueGeneratedOnAdd();
     }

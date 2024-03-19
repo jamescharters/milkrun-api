@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 namespace MilkrunApi.Models.Entity;
 
 /// <summary>
-/// Represents the raw data model of a product
+///     Represents the raw data model of a product
 /// </summary>
 public record ProductEntity : IProduct
 {
-    [Key]  
-    public long Id { get; set; }
+    [Key] public long Id { get; set; }
+
     public string Title { get; set; }
     public string Description { get; set; }
     public int Price { get; set; }
