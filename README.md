@@ -4,6 +4,8 @@ This repository contains code for the MILKRUN Products API.
 
 # Getting Started
 
+This application has been built using .NET 8. 
+
 1. Clone the repository
 2. Open up the solution in VS or Rider
 3. From the root of the cloned repository, run `dotnet build`, `dotnet run` or `dotnet test` depending on your needs
