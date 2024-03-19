@@ -38,10 +38,10 @@ public class ProductsService(IProductsRepository productsRepository, IMapper map
 
         if (!existingProduct) throw new InvalidProductException($"Product with id '{id}' does not exist");
 
-        var duplicateProduct =
-            await productsRepository.ExistsAsync(updateProductRequest.Title, updateProductRequest.Brand);
+        var otherProductExists =
+            await productsRepository.OtherProductExistsAsync(id, updateProductRequest.Title, updateProductRequest.Brand);
 
-        if (duplicateProduct)
+        if (otherProductExists)
             throw new DuplicateProductException(
                 $"Product with title '{updateProductRequest.Title}' and brand '{updateProductRequest.Brand}' already exists");
 

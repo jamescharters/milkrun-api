@@ -30,6 +30,14 @@ public class ProductsRepository : IProductsRepository
             .AnyAsync();
     }
 
+    public async Task<bool> OtherProductExistsAsync(long id, string title, string brand)
+    {
+        return await _productsDbContext.Products.Where(product => product.Id != id)
+            .Where(product => product.Title.Equals(title))
+            .Where(product => product.Brand.Equals(brand))
+            .AnyAsync();
+    }
+
     public async Task<Tuple<IEnumerable<ProductEntity>, int>> GetAllAsync(int page = 0, int pageSize = 10)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(page);

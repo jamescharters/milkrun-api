@@ -71,8 +71,11 @@ public class ProductsServiceTests
     [Test]
     public void UpdateAsync_Throws_DuplicateProductException()
     {
+        // Throw an exception if we attempt to update an existing product to a Title and Brand that matches another 
+        // (i.e. different Id) product in the database
+        
         _mockedRepository.Setup(r => r.ExistsAsync(It.IsAny<long>())).ReturnsAsync(true);
-        _mockedRepository.Setup(r => r.ExistsAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(true);
+        _mockedRepository.Setup(r => r.OtherProductExistsAsync(It.IsAny<long>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(true);
         _mockedRepository.Setup(r => r.UpdateAsync(It.IsAny<long>(), It.IsAny<ProductRequest>()));
 
         var service = new ProductsService(_mockedRepository.Object, _mapper);

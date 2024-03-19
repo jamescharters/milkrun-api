@@ -167,12 +167,10 @@ public class ProductsApiTests
     {
         var authenticatedClient = CreateClient(true);
 
-        var createResponse = await authenticatedClient.PostAsJsonAsync(API_URL, CreateProductRequest);
+        await authenticatedClient.PostAsJsonAsync(API_URL, CreateProductRequest);
 
-        var createdProduct =
-            JsonConvert.DeserializeObject<ProductEntity>(await createResponse.Content.ReadAsStringAsync());
-
-        var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/{createdProduct.Id}",
+        // Try to update another product, but with Title and Brand matching that which we just created
+        var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/1",
             new ProductRequest
             {
                 Title = CreateProductRequest.Title,
