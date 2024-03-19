@@ -85,6 +85,22 @@ public class ProductsApiTests
         Assert.That(content.Limit, Is.EqualTo(5));
         Assert.That(content.Products.Count(), Is.EqualTo(5));
     }
+    
+    [Test]
+    public async Task Get_Products_Should_Return_Large_ResultSet()
+    {
+        var response = await CreateClient().GetAsync($"{API_URL}?page=0&limit=30");
+
+        response.EnsureSuccessStatusCode();
+
+        var content = JsonConvert.DeserializeObject<ProductsCollection>(await response.Content.ReadAsStringAsync());
+
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        Assert.That(content.Total, Is.EqualTo(30));
+        Assert.That(content.Skip, Is.EqualTo(0));
+        Assert.That(content.Limit, Is.EqualTo(30));
+        Assert.That(content.Products.Count(), Is.EqualTo(30));
+    }
 
     [Test]
     public async Task Create_Product_Should_Succeed_If_Authenticated()
