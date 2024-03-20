@@ -4,9 +4,11 @@ This repository contains code for the MILKRUN Products API.
 
 # Getting Started
 
+This application has been built using .NET 8. 
+
 1. Clone the repository
 2. Open up the solution in VS or Rider
-3. From the root of the cloned repository, run `dotnet build`, `dotnet run` or `dotnet test` depending on your needs
+3. From the root of the cloned repository, run `dotnet build`, `dotnet run --project MilkrunApi` or `dotnet test` depending on your needs
 
 When run, the API application will automatically attempt to seed a local SQLite database using the JSON file located under `MilkrunApi\Data\databaseSeed.json`.
 
@@ -17,10 +19,11 @@ Several design decisions have been made in the implementation of this software, 
 * Use of traditional style controllers rather than e.g. Minimal API
 * Input validation performed on controller endpoint and models via attributes
 * Use of Service and Repository patterns for encapsulating business logic, separation of concerns
-* Basic authentication scheme (i.e. 'Authorization: Basic test_user test_password' header) for privileged POST and PUT operations
+* Basic authentication scheme (i.e. `Authorization: Basic test_user:test_password` header) for privileged POST and PUT operations
 * No support to response rate limiting, caching, CORS etc for sake of implementation simplicity
+* No upper bound on `page` and especially `limit` for the GET operation, for sake of implementation simplicity. Ideally one would not allow a user to select all records in the table with a sufficiently large `limit` parameter value
 * Basic logging to console, for sake of simplicity
-* Unit testing of Service logic
+* Unit testing of Service logic is included, though this is implicitly tested via the integration tests
 * Integration testing with in-memory instance of SQLite, to confirm that database interactions, seeding etc work as expected without cumbersome mocking
 * Use of standard suite of NuGet packages
 

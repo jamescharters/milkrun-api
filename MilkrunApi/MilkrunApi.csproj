@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <_ContentIncludedByDefault Remove="Data\test_products.json"/>
+        <_ContentIncludedByDefault Remove="Data\databaseSeed.json"/>
     </ItemGroup>
 
 </Project>
