@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MilkrunApi.Data;
-using MilkrunApi.Models.DTO;
+using MilkrunApi.Models;
 using MilkrunApi.Models.Entity;
 
 namespace MilkrunApi.Repositories;

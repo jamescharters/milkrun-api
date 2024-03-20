@@ -1,6 +1,6 @@
 using AutoMapper;
 using MilkrunApi.Exceptions;
-using MilkrunApi.Models.DTO;
+using MilkrunApi.Models;
 using MilkrunApi.Models.Entity;
 using MilkrunApi.Repositories;
 

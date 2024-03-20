@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MilkrunApi.Exceptions;
-using MilkrunApi.Models.DTO;
+using MilkrunApi.Models;
 using MilkrunApi.Models.Entity;
 using MilkrunApi.Services;
 

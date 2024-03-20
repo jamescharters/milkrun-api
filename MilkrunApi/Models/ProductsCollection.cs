@@ -1,7 +1,7 @@
-namespace MilkrunApi.Models.DTO;
+namespace MilkrunApi.Models;
 
 /// <summary>
-///     Read data transfer object (DTO) representing a subset of available products
+///     Read model representing a subset of available products
 /// </summary>
 /// <param name="products">List of products</param>
 /// <param name="total">Total number of products in the system</param>

@@ -1,4 +1,4 @@
-using MilkrunApi.Models.DTO;
+using MilkrunApi.Models;
 using MilkrunApi.Models.Entity;
 
 namespace MilkrunApi.Services;

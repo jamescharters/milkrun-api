@@ -1,5 +1,5 @@
 using AutoMapper;
-using MilkrunApi.Models.DTO;
+using MilkrunApi.Models;
 using MilkrunApi.Models.Entity;
 
 namespace MilkrunApi.Mapping;

@@ -1,7 +1,7 @@
-namespace MilkrunApi.Models.DTO;
+namespace MilkrunApi.Models;
 
 /// <summary>
-///     Read data transfer object (DTO) for a product
+///     Read model for a product
 /// </summary>
 public record ProductResponse : IProduct
 {
