@@ -14,9 +14,9 @@ When run, the API application will automatically attempt to seed a local SQLite 
 
 # Errata
 
-Several design decisions have been made in the implementation of this software, namely:
+Several design decisions have been made in the implementation, namely:
 
-* Assume a reasonable subset of fields are mandatory (title, brand, description, price)
+* Assume a reasonable subset of fields are mandatory for write operations (title, brand, description, price)
 * Use of controllers rather than e.g. Minimal API
 * Input validation performed on controller endpoint and models via attributes
 * Use of Service and Repository patterns for encapsulating business logic, separation of concerns
@@ -29,13 +29,16 @@ Several design decisions have been made in the implementation of this software, 
 * Integration testing with in-memory instance of SQLite, to confirm that database interactions, seeding etc work as expected without cumbersome mocking
 * Use of standard suite of NuGet packages
 
-# Additional ideas
+# Additional Ideas
 
-Some thoughts on improvements, extensions:
+Some thoughts on improvements, extensions, scaling...
 
-* Executing unit and integration tests via automated CI/CD process
-* Move logging / monitoring to 3rd party service
+* More robust authentication and authorisation on privileged API endpoints (e.g. JWT)
+* A more robust datastore based on anticipated usage characteristics (e.g. Nosql, relational: will the API be read or write heavy?)
+* Logging / monitoring via Grafana, Sentry, Datadog etc
 * Implement rate limiting, CORS, caching and so forth, though these may also be addressed at an cloud infrastructure level
-* Use Testcontainers in integration test suite to run API in real Docker containers (probably overkill for something so simple here)
+* Decoupling write operations from API requests, e.g. write-through cache, use event queue / message bus etc
+* Executing unit and integration tests via automated CI/CD process
+* Use [Testcontainers](https://testcontainers.com/guides/getting-started-with-testcontainers-for-dotnet/) in the integration test suite to run the API in real Docker containers (probably overkill for something so simple here)
 
 
