@@ -8,7 +8,7 @@ This application has been built using .NET 8.
 
 1. Clone the repository
 2. Open up the solution in VS or Rider
-3. From the root of the cloned repository, run `dotnet build`, `dotnet run` or `dotnet test` depending on your needs
+3. From the root of the cloned repository, run `dotnet build`, `dotnet run --project MilkrunApi` or `dotnet test` depending on your needs
 
 When run, the API application will automatically attempt to seed a local SQLite database using the JSON file located under `MilkrunApi\Data\databaseSeed.json`.
 
