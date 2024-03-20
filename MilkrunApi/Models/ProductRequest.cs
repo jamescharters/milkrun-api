@@ -15,6 +15,13 @@ public record ProductRequest : IProduct
     public required string Title { get; set; }
 
     /// <summary>
+    ///     Brand name
+    /// </summary>
+    [DataType(DataType.Text, ErrorMessage = "Brand must be text.")]
+    [Required(ErrorMessage = "Brand is required.")]
+    public required string Brand { get; set; }
+    
+    /// <summary>
     ///     Brief description of the product
     /// </summary>
     [DataType(DataType.Text, ErrorMessage = "Description must be text.")]
@@ -28,7 +35,7 @@ public record ProductRequest : IProduct
     [Range(1, int.MaxValue, ErrorMessage = "Price must be greater than zero.")]
     [Required(ErrorMessage = "Price is required.")]
     [RegularExpression("^(0|[1-9]\\d*)$", ErrorMessage = "Price must be integer >= 0.")]
-    public required int Price { get; set; };
+    public required int Price { get; set; }
 
     /// <summary>
     ///     Discount percentage of the product, if applicable
@@ -49,11 +56,6 @@ public record ProductRequest : IProduct
     /// </summary>
     [RegularExpression("^(0|[1-9]\\d*)$", ErrorMessage = "Stock must be integer >= 0.")]
     public int? Stock { get; set; } = 0;
-
-    /// <summary>
-    ///     Brand name, if applicable
-    /// </summary>
-    public string? Brand { get; set; }
 
     /// <summary>
     ///     Product category, if applicable

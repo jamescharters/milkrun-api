@@ -43,6 +43,7 @@ public class ProductsServiceTests
         Assert.ThrowsAsync<DuplicateProductException>(async () => await service.CreateAsync(new ProductRequest
         {
             Title = "Fake Title",
+            Brand = "Fake Brand",
             Description = "Fake Description",
             Price = 0
         }));
@@ -61,6 +62,7 @@ public class ProductsServiceTests
         await service.CreateAsync(new ProductRequest
         {
             Title = "Title",
+            Brand = "Brand",
             Description = "Description",
             Price = 0
         });
@@ -83,6 +85,7 @@ public class ProductsServiceTests
         Assert.ThrowsAsync<DuplicateProductException>(async () => await service.UpdateAsync(1, new ProductRequest
         {
             Title = "Fake Title",
+            Brand = "Fake Brand",
             Description = "Fake Description",
             Price = 0
         }));
@@ -101,6 +104,7 @@ public class ProductsServiceTests
         Assert.ThrowsAsync<InvalidProductException>(async () => await service.UpdateAsync(1, new ProductRequest
         {
             Title = "Fake Title",
+            Brand = "Fake Brand",
             Description = "Fake Description",
             Price = 0
         }));
@@ -119,6 +123,7 @@ public class ProductsServiceTests
         await service.UpdateAsync(1, new ProductRequest
         {
             Title = "Fake Title",
+            Brand = "Fake Brand",
             Description = "Fake Description",
             Price = 0
         });

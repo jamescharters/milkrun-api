@@ -246,6 +246,7 @@ public class ProductsApiTests
         var updateResponse = await authenticatedClient.PutAsJsonAsync($"{API_URL}/1", new ProductRequest
         {
             Title = "Modified Title",
+            Brand = "Modified Brand",
             Description = "Modified Description",
             Price = 256
         });
